@@ -19,7 +19,7 @@ func init() {
 		byte(255),
 		byte(0xff),
 	}
-	star, _ = objects.New(500, 500, 10, 10)
+	star, _ = objects.New(float64(w/2), float64(h/2), 10, 10)
 }
 
 func update(screen *ebiten.Image) error {
@@ -36,14 +36,6 @@ func update(screen *ebiten.Image) error {
 func main() {
 
 	ebiten.SetFullscreen(true)
-
-	w, h := ebiten.ScreenSizeInFullscreen()
-	// On mobiles, ebiten.MonitorSize is not available so far.
-	// Use arbitrary values.
-	if w == 0 || h == 0 {
-		w = 300
-		h = 450
-	}
 
 	s := ebiten.DeviceScaleFactor()
 	if err := ebiten.Run(update, int(float64(w)*s), int(float64(h)*s), 1/s, "Star System"); err != nil {
