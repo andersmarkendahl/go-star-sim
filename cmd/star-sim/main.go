@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/hajimehoshi/ebiten"
 	"image/color"
 	"log"
@@ -8,6 +9,7 @@ import (
 
 var w, h int
 var white color.RGBA
+var star *objects.Object
 
 func init() {
 	w, h = ebiten.ScreenSizeInFullscreen()
@@ -17,18 +19,16 @@ func init() {
 		byte(255),
 		byte(0xff),
 	}
+	star, _ = objects.New(500, 500, 10, 10)
 }
 
 func update(screen *ebiten.Image) error {
 
-	screen.Set(500, 500, white)
-	screen.Set(501, 501, white)
-	screen.Set(502, 502, white)
-	screen.Set(503, 503, white)
-
 	if ebiten.IsDrawingSkipped() {
 		return nil
 	}
+
+	screen.Set(int(star.X[0]), int(star.X[1]), white)
 
 	return nil
 }
