@@ -8,21 +8,11 @@ import (
 
 // Simulation variables
 var (
-	dt float64
+	dt = 1.0
 	// Width
 	W int
 	// Height
 	H int
-	// The color white
-	White color.RGBA
-)
-
-// StarList is a global slice of objects
-var StarList []*objects.Object
-
-func init() {
-	// Timestep difference
-	dt = 1
 	// The color white
 	White = color.RGBA{
 		byte(255),
@@ -30,6 +20,12 @@ func init() {
 		byte(255),
 		byte(0xff),
 	}
+)
+
+// StarList is a global slice of objects
+var StarList []*objects.Object
+
+func init() {
 }
 
 // StartValues set starting position and velocity
