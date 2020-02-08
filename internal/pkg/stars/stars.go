@@ -8,12 +8,16 @@ import (
 
 // Simulation variables
 var (
-	dt    float64
-	W, H  int
+	dt float64
+	// Width
+	W int
+	// Height
+	H int
+	// The color white
 	White color.RGBA
 )
 
-// BallList is the global slice of balls
+// StarList is a global slice of objects
 var StarList []*objects.Object
 
 func init() {
@@ -46,6 +50,7 @@ func StartValues() error {
 	return nil
 }
 
+// TimestepStars updates position and velocity of all stars
 func TimestepStars() error {
 
 	// Update positions of all stars based on current velocity

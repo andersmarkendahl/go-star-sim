@@ -6,15 +6,20 @@ import (
 	"log"
 )
 
+// Game is part of ebiten and defines the game
 type Game struct{}
 
 func init() {
 }
 
+// Layout is part of ebiten Game interface
+// Defines the screen and is set to always run in full screen
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
 	return stars.W, stars.H
 }
 
+// Update is part of ebiten Game interface
+// Is called for every frame and executes one timestep
 func (g *Game) Update(screen *ebiten.Image) error {
 
 	var err error
