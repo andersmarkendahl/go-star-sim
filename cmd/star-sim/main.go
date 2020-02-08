@@ -8,13 +8,14 @@ import (
 	"log"
 )
 
+type Game struct{}
+
 var dt float64
 var w, h int
 var white color.RGBA
 var star *objects.Object
 
 func init() {
-	w, h = ebiten.ScreenSizeInFullscreen()
 	dt = 1
 	white = color.RGBA{
 		byte(255),
@@ -22,15 +23,18 @@ func init() {
 		byte(255),
 		byte(0xff),
 	}
-	star, _ = objects.New(float64(w/2), float64(h/2), 0.5, 0.5)
 }
 
-func update(screen *ebiten.Image) error {
+func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
+	return w, h
+}
+
+func (g *Game) Update(screen *ebiten.Image) error {
 
 	var err error
 
 	// Update velocities of all stars based on gravity calculation
-	err = star.Velocity(0, 0.1, dt)
+	err = star.Velocity(0, 0.0, dt)
 	if err != nil {
 		return fmt.Errorf("Velocity update failed: %+v", star)
 
@@ -54,11 +58,16 @@ func update(screen *ebiten.Image) error {
 
 func main() {
 
-	ebiten.SetFullscreen(true)
+	game := &Game{}
 
-	s := ebiten.DeviceScaleFactor()
-	if err := ebiten.Run(update, int(float64(w)*s), int(float64(h)*s), 1/s, "Star System"); err != nil {
+	// Specify the window size.
+	w, h = ebiten.ScreenSizeInFullscreen()
+	ebiten.SetFullscreen(true)
+	ebiten.SetWindowTitle("Star System")
+
+	star, _ = objects.New(float64(w/2), float64(h/2), 0.5, 0.5)
+	// Call ebiten.RunGame to start your game loop.
+	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
-
 }
