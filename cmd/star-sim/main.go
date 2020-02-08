@@ -1,28 +1,37 @@
 package main
 
 import (
+	"fmt"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/hajimehoshi/ebiten"
 	"image/color"
 	"log"
 )
 
+var dt float64
 var w, h int
 var white color.RGBA
 var star *objects.Object
 
 func init() {
 	w, h = ebiten.ScreenSizeInFullscreen()
+	dt = 1
 	white = color.RGBA{
 		byte(255),
 		byte(255),
 		byte(255),
 		byte(0xff),
 	}
-	star, _ = objects.New(float64(w/2), float64(h/2), 10, 10)
+	star, _ = objects.New(float64(w/2), float64(h/2), 0.5, 0.5)
 }
 
 func update(screen *ebiten.Image) error {
+
+	err := star.Position(dt)
+	if err != nil {
+		return fmt.Errorf("Position update failed: %+v", star)
+
+	}
 
 	if ebiten.IsDrawingSkipped() {
 		return nil
