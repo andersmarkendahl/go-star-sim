@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"github.com/Aoana/go-star-sim/internal/pkg/stars"
 	"github.com/hajimehoshi/ebiten"
 	"log"
@@ -50,8 +51,12 @@ func main() {
 	ebiten.SetFullscreen(true)
 	ebiten.SetWindowTitle("Star System")
 
+	// Check user specified number of balls
+	radius := flag.Int("radius", 10, "Radius of star cluster")
+	flag.Parse()
+
 	// Spawn all stars
-	stars.StartValues(100)
+	stars.StartValues(*radius)
 
 	// Call ebiten.RunGame to start your game loop.
 	if err := ebiten.RunGame(game); err != nil {

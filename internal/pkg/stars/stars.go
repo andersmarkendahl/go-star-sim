@@ -1,6 +1,7 @@
 package stars
 
 import (
+	"fmt"
 	"github.com/Aoana/ball-sim-go/pkg/mathutil"
 	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"image/color"
@@ -47,6 +48,7 @@ func StartValues(r int) error {
 			}
 		}
 	}
+	fmt.Println("Number of stars: ", len(StarList))
 	return nil
 }
 
