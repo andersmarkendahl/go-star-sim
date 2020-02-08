@@ -27,7 +27,17 @@ func init() {
 
 func update(screen *ebiten.Image) error {
 
-	err := star.Position(dt)
+	var err error
+
+	// Update velocities of all stars based on gravity calculation
+	err = star.Velocity(0, 0.1, dt)
+	if err != nil {
+		return fmt.Errorf("Velocity update failed: %+v", star)
+
+	}
+
+	// Update position of all stars based on new velocities
+	err = star.Position(dt)
 	if err != nil {
 		return fmt.Errorf("Position update failed: %+v", star)
 
