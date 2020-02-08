@@ -51,7 +51,7 @@ func main() {
 	ebiten.SetWindowTitle("Star System")
 
 	// Spawn all stars
-	stars.StartValues()
+	stars.StartValues(100)
 
 	// Call ebiten.RunGame to start your game loop.
 	if err := ebiten.RunGame(game); err != nil {

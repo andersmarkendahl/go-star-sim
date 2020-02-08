@@ -30,18 +30,22 @@ func init() {
 
 // StartValues set starting position and velocity
 // Fixed starting position and velocity is random
-func StartValues() error {
+func StartValues(r int) error {
 
-	for i := 0; i < 50; i++ {
-		// Random starting velocity
-		vx0, _ := mathutil.RandInRange(0, 0.5)
-		vy0, _ := mathutil.RandInRange(0, 0.5)
-		// Ball constructor
-		s, err := objects.New(float64(W/2+2*i), float64(H/2+2*i), vx0, vy0)
-		if err != nil {
-			return err
+	for i := -r; i <= r; i++ {
+		for j := -r; j <= r; j++ {
+			if i*i+j*j <= r*r {
+				// Random starting velocity
+				vx0, _ := mathutil.RandInRange(-0.5, 0.5)
+				vy0, _ := mathutil.RandInRange(-0.5, 0.5)
+				// Construct objects
+				s, err := objects.New(float64(W/2+i), float64(H/2+j), vx0, vy0)
+				if err != nil {
+					return err
+				}
+				StarList = append(StarList, s)
+			}
 		}
-		StarList = append(StarList, s)
 	}
 	return nil
 }
