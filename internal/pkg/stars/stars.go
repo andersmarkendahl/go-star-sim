@@ -10,8 +10,8 @@ import (
 
 // Simulation variables
 var (
-	dt = 1.0
-	G  = 0.01
+	dt = 100.0
+	G  = 0.1
 	// Width
 	W int
 	// Height
@@ -23,7 +23,7 @@ var (
 		byte(255),
 		byte(0xff),
 	}
-	ax, ay, dx, dy, d, d3, posx, posy float64
+	ax, ay, dx, dy, d, d3 float64
 )
 
 // StarList is a global slice of objects
@@ -62,7 +62,7 @@ func StartValues(nstars int) error {
 
 				// Velocity vector with fixed length
 				VS := vector.Unit(V)
-				//VS.Scale(5)
+				VS.Scale(20.0)
 
 				// Translate position to middle of screen
 				XT := vector.Add(X, T)
@@ -96,14 +96,15 @@ func TimestepStars() error {
 
 		ax = 0.0
 		ay = 0.0
-		posx = StarList[i].X[0]
-		posy = StarList[i].X[1]
 		for j := range StarList {
 			if i == j {
 				continue
 			}
-			dx = posx - StarList[j].X[0]
-			dy = posy - StarList[j].X[1]
+			if StarList[i].X[0] == StarList[j].X[0] && StarList[i].X[1] == StarList[j].X[1] {
+				continue
+			}
+			dx = StarList[j].X[0] - StarList[i].X[0]
+			dy = StarList[j].X[1] - StarList[i].X[1]
 			d = math.Sqrt(dx*dx + dy*dy)
 			d3 = d * d * d
 			ax += G * dx / d3
