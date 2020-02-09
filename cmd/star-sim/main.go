@@ -2,8 +2,10 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/Aoana/go-star-sim/internal/pkg/stars"
 	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/ebitenutil"
 	"log"
 )
 
@@ -38,6 +40,8 @@ func (g *Game) Update(screen *ebiten.Image) error {
 	for i := range stars.StarList {
 		screen.Set(int(stars.StarList[i].X[0]), int(stars.StarList[i].X[1]), stars.White)
 	}
+
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("TPS: %0.2f\n", ebiten.CurrentTPS()))
 
 	return nil
 }
