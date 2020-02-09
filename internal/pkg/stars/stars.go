@@ -23,6 +23,7 @@ var (
 		byte(255),
 		byte(0xff),
 	}
+	ax, ay, dx, dy, d, d3, posx, posy float64
 )
 
 // StarList is a global slice of objects
@@ -61,6 +62,7 @@ func StartValues(nstars int) error {
 
 				// Velocity vector with fixed length
 				VS := vector.Unit(V)
+				//VS.Scale(5)
 
 				// Translate position to middle of screen
 				XT := vector.Add(X, T)
@@ -92,18 +94,23 @@ func TimestepStars() error {
 	// Update velocities of all stars based on gravity calculation
 	for i := range StarList {
 
-		A := vector.NewWithValues([]float64{0.0, 0.0})
+		ax = 0.0
+		ay = 0.0
+		posx = StarList[i].X[0]
+		posy = StarList[i].X[1]
 		for j := range StarList {
 			if i == j {
 				continue
 			}
-			D := vector.Subtract(StarList[i].X, StarList[j].X)
-			d := D.Magnitude()
-			Gx := vector.NewWithValues([]float64{G * D[0] / math.Pow(d, 3), G * D[1] / math.Pow(d, 3)})
-			A = vector.Add(A, Gx)
+			dx = posx - StarList[j].X[0]
+			dy = posy - StarList[j].X[1]
+			d = math.Sqrt(dx*dx + dy*dy)
+			d3 = d * d * d
+			ax += G * dx / d3
+			ay += G * dy / d3
 		}
 
-		err := StarList[i].Velocity(A[0], A[1], dt)
+		err := StarList[i].Velocity(ax, ay, dt)
 		if err != nil {
 			return err
 		}
