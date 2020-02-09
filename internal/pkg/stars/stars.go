@@ -5,6 +5,7 @@ import (
 	"github.com/Aoana/ball-sim-go/pkg/objects"
 	"github.com/atedja/go-vector"
 	"image/color"
+	"math"
 )
 
 // Simulation variables
@@ -31,8 +32,9 @@ func init() {
 
 // StartValues set starting position and velocity
 // Fixed starting position and velocity is random
-func StartValues(r int) error {
+func StartValues(nstars int) error {
 
+	r := math.Round(math.Sqrt(float64(nstars) / math.Pi))
 	T := vector.NewWithValues([]float64{float64(W / 2), float64(H / 2)})
 
 	for i := -r; i <= r; i++ {
@@ -72,7 +74,7 @@ func StartValues(r int) error {
 			}
 		}
 	}
-	fmt.Println("Number of stars: ", len(StarList))
+	fmt.Printf("Requested number of stars %d resulted in %d stars\n", nstars, len(StarList))
 	return nil
 }
 

@@ -51,12 +51,12 @@ func main() {
 	ebiten.SetFullscreen(true)
 	ebiten.SetWindowTitle("Star System")
 
-	// Check user specified number of balls
-	radius := flag.Int("radius", 10, "Radius of star cluster")
+	// Set radius of star cluster
+	nstars := flag.Int("nstars", 12, "Number of stars in cluster")
 	flag.Parse()
 
 	// Spawn all stars
-	stars.StartValues(*radius)
+	stars.StartValues(*nstars)
 
 	// Call ebiten.RunGame to start your game loop.
 	if err := ebiten.RunGame(game); err != nil {

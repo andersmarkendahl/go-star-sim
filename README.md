@@ -10,5 +10,5 @@ go build ./cmd/star-sim/
 ## Run
 
 ```
-./star-sim
+./star-sim -nstars=1000
 ```
