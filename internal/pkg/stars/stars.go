@@ -100,12 +100,12 @@ func TimestepStars() error {
 			if i == j {
 				continue
 			}
-			if StarList[i].X[0] == StarList[j].X[0] && StarList[i].X[1] == StarList[j].X[1] {
-				continue
-			}
 			dx = StarList[j].X[0] - StarList[i].X[0]
 			dy = StarList[j].X[1] - StarList[i].X[1]
 			d = math.Sqrt(dx*dx + dy*dy)
+			if d < 2.0 {
+				continue
+			}
 			d3 = d * d * d
 			ax += G * dx / d3
 			ay += G * dy / d3
