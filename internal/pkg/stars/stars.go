@@ -11,6 +11,7 @@ import (
 // Simulation variables
 var (
 	dt = 1.0
+	G  = 0.01
 	// Width
 	W int
 	// Height
@@ -60,7 +61,6 @@ func StartValues(nstars int) error {
 
 				// Velocity vector with fixed length
 				VS := vector.Unit(V)
-				VS.Scale(0.5)
 
 				// Translate position to middle of screen
 				XT := vector.Add(X, T)
@@ -91,7 +91,19 @@ func TimestepStars() error {
 
 	// Update velocities of all stars based on gravity calculation
 	for i := range StarList {
-		err := StarList[i].Velocity(0, 0, dt)
+
+		A := vector.NewWithValues([]float64{0.0, 0.0})
+		for j := range StarList {
+			if i == j {
+				continue
+			}
+			D := vector.Subtract(StarList[i].X, StarList[j].X)
+			d := D.Magnitude()
+			Gx := vector.NewWithValues([]float64{G * D[0] / math.Pow(d, 3), G * D[1] / math.Pow(d, 3)})
+			A = vector.Add(A, Gx)
+		}
+
+		err := StarList[i].Velocity(A[0], A[1], dt)
 		if err != nil {
 			return err
 		}
