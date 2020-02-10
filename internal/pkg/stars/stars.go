@@ -2,8 +2,6 @@ package stars
 
 import (
 	"fmt"
-	"github.com/Aoana/ball-sim-go/pkg/objects"
-	"github.com/atedja/go-vector"
 	"image/color"
 	"math"
 )
@@ -23,11 +21,16 @@ var (
 		byte(255),
 		byte(0xff),
 	}
-	ax, ay, dx, dy, d, d3 float64
+	x, y, vx, vy, ax, ay, dx, dy, d, d3 float64
 )
 
-// StarList is a global slice of objects
-var StarList []*objects.Object
+// Star is a simple position and velocity coordinate
+type Star struct {
+	X, Y, vx, vy float64
+}
+
+// StarList is a global slice of stars
+var StarList []*Star
 
 func init() {
 }
@@ -37,42 +40,45 @@ func init() {
 func StartValues(nstars int) error {
 
 	r := math.Round(math.Sqrt(float64(nstars) / math.Pi))
-	T := vector.NewWithValues([]float64{float64(W / 2), float64(H / 2)})
+	tx := float64(W / 2)
+	ty := float64(H / 2)
 
 	for i := -r; i <= r; i++ {
 		for j := -r; j <= r; j++ {
 			if i*i+j*j <= r*r {
 
 				// Logical starting position
-				X := vector.NewWithValues([]float64{float64(i), float64(j)})
+				x := float64(i)
+				y := float64(j)
 
-				// Velocity vector
-				var V vector.Vector
+				var vx, vy float64
 
 				// Velocity perpendicular to circle
-				if X[0] == 0 && X[1] == 0 {
+				if x == 0 && y == 0 {
 					continue
-				} else if X[0] == 0 {
-					V = vector.NewWithValues([]float64{X[1], 0.0})
-				} else if X[0] > 0 {
-					V = vector.NewWithValues([]float64{X[1] / X[0], -X[0]})
+				} else if x == 0 {
+					vx = y
+					vy = 0.0
+				} else if x > 0 {
+					vx = y / x
+					vy = -x
 				} else {
-					V = vector.NewWithValues([]float64{-X[1] / X[0], -X[0]})
+					vx = -y / x
+					vy = -x
 				}
 
 				// Velocity vector with fixed length
-				VS := vector.Unit(V)
-				VS.Scale(20.0)
+				d := math.Sqrt(vx*vx + vy*vy)
+				vxs := 20 * vx / d
+				vys := 20 * vy / d
 
 				// Translate position to middle of screen
-				XT := vector.Add(X, T)
+				x += tx
+				y += ty
 
-				// Construct objects
-				s, err := objects.New(XT[0], XT[1], VS[0], VS[1])
-				if err != nil {
-					return err
-				}
-				StarList = append(StarList, s)
+				// Construct object
+				s := Star{X: x, Y: y, vx: vxs, vy: vys}
+				StarList = append(StarList, &s)
 			}
 		}
 	}
@@ -85,10 +91,8 @@ func TimestepStars() error {
 
 	// Update positions of all stars based on current velocity
 	for i := range StarList {
-		err := StarList[i].Position(dt)
-		if err != nil {
-			return err
-		}
+		StarList[i].X = StarList[i].X + StarList[i].vx/dt
+		StarList[i].Y = StarList[i].Y + StarList[i].vy/dt
 	}
 
 	// Update velocities of all stars based on gravity calculation
@@ -100,8 +104,8 @@ func TimestepStars() error {
 			if i == j {
 				continue
 			}
-			dx = StarList[j].X[0] - StarList[i].X[0]
-			dy = StarList[j].X[1] - StarList[i].X[1]
+			dx = StarList[j].X - StarList[i].X
+			dy = StarList[j].Y - StarList[i].Y
 			d = math.Sqrt(dx*dx + dy*dy)
 			if d < 2.0 {
 				continue
@@ -111,10 +115,8 @@ func TimestepStars() error {
 			ay += G * dy / d3
 		}
 
-		err := StarList[i].Velocity(ax, ay, dt)
-		if err != nil {
-			return err
-		}
+		StarList[i].vx = StarList[i].vx + ax/dt
+		StarList[i].vy = StarList[i].vy + ay/dt
 	}
 	return nil
 

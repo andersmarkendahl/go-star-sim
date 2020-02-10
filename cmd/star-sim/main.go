@@ -38,7 +38,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 
 	// Draw all stars
 	for i := range stars.StarList {
-		screen.Set(int(stars.StarList[i].X[0]), int(stars.StarList[i].X[1]), stars.White)
+		screen.Set(int(stars.StarList[i].X), int(stars.StarList[i].Y), stars.White)
 	}
 
 	ebitenutil.DebugPrint(screen, fmt.Sprintf("TPS: %0.2f\n", ebiten.CurrentTPS()))
