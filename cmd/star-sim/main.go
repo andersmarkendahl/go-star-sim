@@ -41,7 +41,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		screen.Set(int(stars.StarList[i].X), int(stars.StarList[i].Y), stars.White)
 	}
 
-	ebitenutil.DebugPrint(screen, fmt.Sprintf("TPS: %0.2f\n", ebiten.CurrentTPS()))
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("Stars: %d\nTPS: %0.2f", len(stars.StarList), ebiten.CurrentTPS()))
 
 	return nil
 }

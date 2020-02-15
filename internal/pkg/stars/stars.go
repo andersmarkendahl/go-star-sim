@@ -39,12 +39,12 @@ func init() {
 // Fixed starting position and velocity is random
 func StartValues(nstars int) error {
 
-	r := math.Round(math.Sqrt(float64(nstars) / math.Pi))
+	r := 10*math.Round(math.Sqrt(float64(nstars) / math.Pi))
 	tx := float64(W / 2)
 	ty := float64(H / 2)
 
-	for i := -r; i <= r; i++ {
-		for j := -r; j <= r; j++ {
+	for i := -r; i <= r; i += 10 {
+		for j := -r; j <= r; j += 10 {
 			if i*i+j*j <= r*r {
 
 				// Logical starting position
@@ -69,8 +69,8 @@ func StartValues(nstars int) error {
 
 				// Velocity vector with fixed length
 				d := math.Sqrt(vx*vx + vy*vy)
-				vxs := 20 * vx / d
-				vys := 20 * vy / d
+				vxs := 1.0 * vx / d
+				vys := 1.0 * vy / d
 
 				// Translate position to middle of screen
 				x += tx
@@ -114,9 +114,10 @@ func TimestepStars() error {
 			ax += G * dx / d3
 			ay += G * dy / d3
 		}
-
+//		fmt.Printf("Start %+v\n", StarList[i])
 		StarList[i].vx = StarList[i].vx + ax/dt
 		StarList[i].vy = StarList[i].vy + ay/dt
+//		fmt.Printf("End %+v\n", StarList[i])
 	}
 	return nil
 
