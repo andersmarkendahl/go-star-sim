@@ -39,8 +39,8 @@ func init() {
 // Fixed starting position and velocity is random
 func StartValues(nstars int) error {
 
-	rx := 10*math.Round(math.Sqrt(float64(nstars) / math.Pi))
-	ry := 0.5*rx
+	rx := 10 * math.Round(math.Sqrt(float64(nstars)/math.Pi))
+	ry := 0.5 * rx
 	tx := float64(W / 2)
 	ty := float64(H / 2)
 
@@ -115,10 +115,10 @@ func TimestepStars() error {
 			ax += G * dx / d3
 			ay += G * dy / d3
 		}
-//		fmt.Printf("Start %+v\n", StarList[i])
+		//		fmt.Printf("Start %+v\n", StarList[i])
 		StarList[i].vx = StarList[i].vx + ax/dt
 		StarList[i].vy = StarList[i].vy + ay/dt
-//		fmt.Printf("End %+v\n", StarList[i])
+		//		fmt.Printf("End %+v\n", StarList[i])
 	}
 	return nil
 
