@@ -9,7 +9,7 @@ import (
 // Simulation variables
 var (
 	dt = 100.0
-	G  = 0.1
+	G  = 10.0
 	// Width
 	W int
 	// Height
@@ -39,13 +39,14 @@ func init() {
 // Fixed starting position and velocity is random
 func StartValues(nstars int) error {
 
-	r := 10*math.Round(math.Sqrt(float64(nstars) / math.Pi))
+	rx := 10*math.Round(math.Sqrt(float64(nstars) / math.Pi))
+	ry := 0.5*rx
 	tx := float64(W / 2)
 	ty := float64(H / 2)
 
-	for i := -r; i <= r; i += 10 {
-		for j := -r; j <= r; j += 10 {
-			if i*i+j*j <= r*r {
+	for i := -rx; i <= rx; i += 10 {
+		for j := -ry; j <= ry; j += 5 {
+			if i*i/(rx*rx)+j*j/(ry*ry) <= 1 {
 
 				// Logical starting position
 				x := float64(i)
@@ -69,8 +70,8 @@ func StartValues(nstars int) error {
 
 				// Velocity vector with fixed length
 				d := math.Sqrt(vx*vx + vy*vy)
-				vxs := 1.0 * vx / d
-				vys := 1.0 * vy / d
+				vxs := 6.0 * vx / d
+				vys := 6.0 * vy / d
 
 				// Translate position to middle of screen
 				x += tx
