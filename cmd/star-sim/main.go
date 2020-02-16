@@ -27,7 +27,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 
 	var err error
 
-	err = stars.TimestepStars()
+	err = stars.TimestepBarnesHut()
 	if err != nil {
 		return err
 	}
