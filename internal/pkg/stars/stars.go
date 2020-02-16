@@ -150,7 +150,7 @@ func buildQuadTree(sl []*Star, wmin, wmax, hmin, hmax float64, depth int) *Quad 
 		mass: cstars, cmx: cmx, cmy: cmy, depth: depth}
 }
 
-func CalcAcc(star *Star, subRoot *Quad) (float64, float64) {
+func calcAcc(star *Star, subRoot *Quad) (float64, float64) {
 
 	// Empty Node
 	if subRoot == nil {
@@ -170,17 +170,18 @@ func CalcAcc(star *Star, subRoot *Quad) (float64, float64) {
 		ay = G * subRoot.mass * dy / d3
 	} else {
 		// Sum up the forces from all 4 Quads
-		ax1, ay1 = CalcAcc(star, subRoot.tl)
-		ax2, ay2 = CalcAcc(star, subRoot.tr)
-		ax3, ay3 = CalcAcc(star, subRoot.dl)
-		ax4, ay4 = CalcAcc(star, subRoot.dr)
+		ax1, ay1 = calcAcc(star, subRoot.tl)
+		ax2, ay2 = calcAcc(star, subRoot.tr)
+		ax3, ay3 = calcAcc(star, subRoot.dl)
+		ax4, ay4 = calcAcc(star, subRoot.dr)
 		ax = ax1 + ax2 + ax3 + ax4
 		ay = ay1 + ay2 + ay3 + ay4
 	}
 	return ax, ay
 }
 
-// TimestepStars updates position and velocity of all stars
+// TimestepBarnesHut updates position and velocity of all stars
+// Velocity update is based on Barnes Hut approximation
 func TimestepBarnesHut() error {
 
 	// Update positions of all stars based on current velocity
@@ -202,7 +203,8 @@ func TimestepBarnesHut() error {
 
 }
 
-// TimestepStars updates position and velocity of all stars
+// TimestepExact updates position and velocity of all stars
+// Velocity update is based on exact calculation
 func TimestepExact() error {
 
 	// Update positions of all stars based on current velocity
