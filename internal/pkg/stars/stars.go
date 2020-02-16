@@ -50,7 +50,7 @@ func init() {
 }
 
 // StartValues set starting position and velocity
-// Fixed starting position and velocity is random
+// Forms an ellipse shape with velocities approx tangential
 func StartValues(nstars int) error {
 
 	fW = float64(W)
@@ -182,7 +182,7 @@ func calcAcc(star *Star, subRoot *Quad) (float64, float64) {
 
 // TimestepBarnesHut updates position and velocity of all stars
 // Velocity update is based on Barnes Hut approximation
-func TimestepBarnesHut() error {
+func TimestepBarnesHut() {
 
 	// Update positions of all stars based on current velocity
 	for i := range StarList {
@@ -195,17 +195,15 @@ func TimestepBarnesHut() error {
 	root = buildQuadTree(StarList, 0, fW, 0, fH, 0)
 	for i := range StarList {
 		// Update Velocities
-		ax, ay := CalcAcc(StarList[i], root)
+		ax, ay := calcAcc(StarList[i], root)
 		StarList[i].vx = StarList[i].vx + ax/dt
 		StarList[i].vy = StarList[i].vy + ay/dt
 	}
-	return nil
-
 }
 
 // TimestepExact updates position and velocity of all stars
 // Velocity update is based on exact calculation
-func TimestepExact() error {
+func TimestepExact() {
 
 	// Update positions of all stars based on current velocity
 	for i := range StarList {
@@ -236,6 +234,4 @@ func TimestepExact() error {
 		StarList[i].vx = StarList[i].vx + ax/dt
 		StarList[i].vy = StarList[i].vy + ay/dt
 	}
-	return nil
-
 }

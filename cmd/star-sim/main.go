@@ -12,6 +12,9 @@ import (
 // Game is part of ebiten and defines the game
 type Game struct{}
 
+var timestep func()
+var model *string
+
 func init() {
 }
 
@@ -25,12 +28,7 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeigh
 // Is called for every frame and executes one timestep
 func (g *Game) Update(screen *ebiten.Image) error {
 
-	var err error
-
-	err = stars.TimestepBarnesHut()
-	if err != nil {
-		return err
-	}
+	timestep()
 
 	if ebiten.IsDrawingSkipped() {
 		return nil
@@ -41,7 +39,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		screen.Set(int(stars.StarList[i].X), int(stars.StarList[i].Y), stars.White)
 	}
 
-	ebitenutil.DebugPrint(screen, fmt.Sprintf("Stars: %d\nTPS: %0.2f", len(stars.StarList), ebiten.CurrentTPS()))
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("Stars: %d\nModel: %s\nTPS: %0.2f", len(stars.StarList), *model, ebiten.CurrentTPS()))
 
 	return nil
 }
@@ -57,7 +55,17 @@ func main() {
 
 	// Set radius of star cluster
 	nstars := flag.Int("nstars", 12, "Number of stars in cluster")
+	model = flag.String("model", "Exact", "Gravity calculation model\n\"Exact\", \"BarnesHut\"")
 	flag.Parse()
+
+	switch *model {
+	case "Exact":
+		timestep = stars.TimestepExact
+	case "BarnesHut":
+		timestep = stars.TimestepBarnesHut
+	default:
+		log.Fatal("Unknown gravity model")
+	}
 
 	// Spawn all stars
 	stars.StartValues(*nstars)
