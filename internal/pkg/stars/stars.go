@@ -7,10 +7,10 @@ import (
 )
 
 // Simulation variables
+// Note: dt is set to 1
 const (
-	dt = 100.0
-	G  = 1000.0
-	V0 = 100.0
+	G = 0.05
+	V0 = 0.5
 )
 
 var (

@@ -105,8 +105,8 @@ func TimestepBarnesHut() {
 
 	// Update positions of all stars based on current velocity
 	for i := range StarList {
-		StarList[i].X = StarList[i].X + StarList[i].vx/dt
-		StarList[i].Y = StarList[i].Y + StarList[i].vy/dt
+		StarList[i].X = StarList[i].X + StarList[i].vx
+		StarList[i].Y = StarList[i].Y + StarList[i].vy
 	}
 
 	// Update velocities of all stars based approximation gravity calculation
@@ -115,7 +115,7 @@ func TimestepBarnesHut() {
 	for i := range StarList {
 		// Update Velocities
 		ax, ay := calcAcc(StarList[i], root)
-		StarList[i].vx = StarList[i].vx + ax/dt
-		StarList[i].vy = StarList[i].vy + ay/dt
+		StarList[i].vx = StarList[i].vx + ax
+		StarList[i].vy = StarList[i].vy + ay
 	}
 }

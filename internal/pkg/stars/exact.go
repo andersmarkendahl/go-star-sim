@@ -13,8 +13,8 @@ func TimestepExact() {
 
 	// Update positions of all stars based on current velocity
 	for i := range StarList {
-		StarList[i].X = StarList[i].X + StarList[i].vx/dt
-		StarList[i].Y = StarList[i].Y + StarList[i].vy/dt
+		StarList[i].X = StarList[i].X + StarList[i].vx
+		StarList[i].Y = StarList[i].Y + StarList[i].vy
 	}
 
 	// Update velocities of all stars based on "ex" gravity calculation
@@ -37,7 +37,7 @@ func TimestepExact() {
 			exAx += G * exDx / exD3
 			exAy += G * exDy / exD3
 		}
-		StarList[i].vx = StarList[i].vx + exAx/dt
-		StarList[i].vy = StarList[i].vy + exAy/dt
+		StarList[i].vx = StarList[i].vx + exAx
+		StarList[i].vy = StarList[i].vy + exAy
 	}
 }
