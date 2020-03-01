@@ -85,4 +85,3 @@ func StartValues(nstars int) error {
 	fmt.Printf("Requested number of stars %d resulted in %d stars\n", nstars, len(StarList))
 	return nil
 }
-

@@ -6,12 +6,8 @@ import (
 
 // Simulation variables
 var (
-	// Runtime variables set for performance
-	bhDx, bhDy, bhD, bhD3, theta, wmid, hmid                           float64
-	bhAx, bhAy, bhAx1, bhAx2, bhAx3, bhAx4, bhAy1, bhAy2, bhAy3, bhAy4 float64
-	cstars                                                             float64
-	maxdepth                                       = 12
-	root                                           *Quad
+	maxdepth = 12
+	root     *Quad
 )
 
 // Quad is a rectangle that contains four smaller rectangles
@@ -22,7 +18,6 @@ type Quad struct {
 	depth          int
 }
 
-
 func buildQuadTree(sl []*Star, wmin, wmax, hmin, hmax float64, depth int) *Quad {
 
 	var subsl []*Star
@@ -31,7 +26,7 @@ func buildQuadTree(sl []*Star, wmin, wmax, hmin, hmax float64, depth int) *Quad 
 			subsl = append(subsl, sl[i])
 		}
 	}
-	cstars = float64(len(subsl))
+	cstars := float64(len(subsl))
 
 	// Quad does not contain any objects
 	if cstars == 0 {
@@ -60,8 +55,8 @@ func buildQuadTree(sl []*Star, wmin, wmax, hmin, hmax float64, depth int) *Quad 
 	}
 
 	// Quad needs split
-	wmid = (wmin + wmax) / 2
-	hmid = (hmin + hmax) / 2
+	wmid := (wmin + wmax) / 2
+	hmid := (hmin + hmax) / 2
 	tl := buildQuadTree(subsl, wmin, wmid, hmin, hmid, depth+1)
 	tr := buildQuadTree(subsl, wmid, wmax, hmin, hmid, depth+1)
 	dl := buildQuadTree(subsl, wmin, wmid, hmid, hmax, depth+1)
@@ -78,26 +73,32 @@ func calcAcc(star *Star, subRoot *Quad) (float64, float64) {
 	}
 
 	// Calulate distances and theta (that decides when to approximate)
-	bhDx = subRoot.cmx - star.X
-	bhDy = subRoot.cmy - star.Y
-	bhD = math.Sqrt(bhDx*bhDx + bhDy*bhDy)
-	theta = (fW / math.Exp2(float64(subRoot.depth))) / bhD
+	Dx := subRoot.cmx - star.X
+	Dy := subRoot.cmy - star.Y
+	// Star is same
+	if Dx == 0 && Dy == 0 {
+		//		fmt.Printf("Star compared to itself\n")
+		return 0, 0
+	}
+	D := math.Sqrt(Dx*Dx + Dy*Dy)
+	theta := (fW / math.Exp2(float64(subRoot.depth))) / D
 
-	if theta < 0.5 {
-		// Treat node a single object
-		bhD3 = bhD * bhD * bhD
-		bhAx = G * subRoot.mass * bhDx / bhD3
-		bhAy = G * subRoot.mass * bhDy / bhD3
+	var Ax, Ay float64
+	if subRoot.mass == 1.0 || theta < 0.5 {
+		// Treat node a single object (or it is a single object)
+		D3 := D * D * D
+		Ax = G * subRoot.mass * Dx / D3
+		Ay = G * subRoot.mass * Dy / D3
 	} else {
 		// Sum up the forces from all 4 Quads
-		bhAx1, bhAy1 = calcAcc(star, subRoot.tl)
-		bhAx2, bhAy2 = calcAcc(star, subRoot.tr)
-		bhAx3, bhAy3 = calcAcc(star, subRoot.dl)
-		bhAx4, bhAy4 = calcAcc(star, subRoot.dr)
-		bhAx = bhAx1 + bhAx2 + bhAx3 + bhAx4
-		bhAy = bhAy1 + bhAy2 + bhAy3 + bhAy4
+		Ax1, Ay1 := calcAcc(star, subRoot.tl)
+		Ax2, Ay2 := calcAcc(star, subRoot.tr)
+		Ax3, Ay3 := calcAcc(star, subRoot.dl)
+		Ax4, Ay4 := calcAcc(star, subRoot.dr)
+		Ax = Ax1 + Ax2 + Ax3 + Ax4
+		Ay = Ay1 + Ay2 + Ay3 + Ay4
 	}
-	return bhAx, bhAy
+	return Ax, Ay
 }
 
 // TimestepBarnesHut updates position and velocity of all stars

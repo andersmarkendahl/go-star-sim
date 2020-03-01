@@ -5,7 +5,7 @@ import (
 )
 
 // Runtime variables set for performance
-var	exDx, exDy, exD, exD3, exAx, exAy float64
+var exDx, exDy, exD, exD3, exAx, exAy float64
 
 // TimestepExact updates position and velocity of all stars
 // Velocity update is based on ex calculation
