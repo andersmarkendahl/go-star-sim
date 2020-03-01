@@ -39,13 +39,12 @@ func StartValues(nstars int) error {
 	fW = float64(W)
 	fH = float64(H)
 
-	rx := 10 * math.Round(math.Sqrt(float64(nstars)/math.Pi))
-	ry := 0.5 * rx
+	r := 10 * math.Round(math.Sqrt(float64(nstars)/math.Pi))
 	tx := fW / 2
 	ty := fH / 2
-	for i := -rx; i <= rx; i += 10 {
-		for j := -ry; j <= ry; j += 5 {
-			if i*i/(rx*rx)+j*j/(ry*ry) <= 1 {
+	for i := -r; i <= r; i += 10 {
+		for j := -r; j <= r; j += 10 {
+			if i*i+j*j <= r*r {
 
 				// Logical starting position
 				x := float64(i)
