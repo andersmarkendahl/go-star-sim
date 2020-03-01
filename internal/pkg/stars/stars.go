@@ -7,9 +7,13 @@ import (
 )
 
 // Simulation variables
-var (
+const (
 	dt = 100.0
 	G  = 1000.0
+	V0 = 100.0
+)
+
+var (
 	// Width
 	W int
 	// Height
@@ -79,8 +83,8 @@ func StartValues(nstars int) error {
 
 				// Velocity vector with fixed length
 				d := math.Sqrt(vx*vx + vy*vy)
-				vxs := 100.0 * vx / d
-				vys := 100.0 * vy / d
+				vxs := V0 * vx / d
+				vys := V0 * vy / d
 
 				// Translate position to middle of screen
 				x += tx

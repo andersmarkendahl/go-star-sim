@@ -5,10 +5,9 @@ import (
 )
 
 // Simulation variables
-var (
-	maxdepth = 12
-	root     *Quad
-)
+const maxdepth = 12
+
+var root *Quad
 
 // Quad is a rectangle that contains four smaller rectangles
 // Values are total mass, center of gravity and depth
