@@ -14,6 +14,7 @@ type Game struct{}
 
 var timestep func()
 var model *string
+var ticks int
 
 func init() {
 }
@@ -30,6 +31,8 @@ func (g *Game) Update(screen *ebiten.Image) error {
 
 	timestep()
 
+	ticks++
+
 	if ebiten.IsDrawingSkipped() {
 		return nil
 	}
@@ -39,8 +42,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		screen.Set(int(stars.StarList[i].X), int(stars.StarList[i].Y), stars.White)
 	}
 
-	ebitenutil.DebugPrint(screen, fmt.Sprintf("Stars: %d\nModel: %s\nTPS: %0.2f", len(stars.StarList), *model, ebiten.CurrentTPS()))
-
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("Stars: %d\nModel: %s\nTPS: %0.2f\nTick: %d", len(stars.StarList), *model, ebiten.CurrentTPS(), ticks))
 	return nil
 }
 

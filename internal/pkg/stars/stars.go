@@ -9,7 +9,7 @@ import (
 // Simulation variables
 var (
 	dt = 100.0
-	G  = 10.0
+	G  = 1000.0
 	// Width
 	W int
 	// Height
@@ -39,11 +39,11 @@ func StartValues(nstars int) error {
 	fW = float64(W)
 	fH = float64(H)
 
-	r := 10 * math.Round(math.Sqrt(float64(nstars)/math.Pi))
+	r := 5 * math.Round(math.Sqrt(float64(nstars)/math.Pi))
 	tx := fW / 2
 	ty := fH / 2
-	for i := -r; i <= r; i += 10 {
-		for j := -r; j <= r; j += 10 {
+	for i := -r; i <= r; i += 5 {
+		for j := -r; j <= r; j += 5 {
 			if i*i+j*j <= r*r {
 
 				// Logical starting position
@@ -58,18 +58,29 @@ func StartValues(nstars int) error {
 				} else if x == 0 {
 					vx = y
 					vy = 0.0
-				} else if x > 0 {
+				} else if y == 0 {
+					vx = 0.0
+					vy = -x
+				} else if x > 0 && y > 0 {
 					vx = y / x
-					vy = -x
-				} else {
+					vy = -y / x
+				} else if x > 0 && y < 0 {
+					vx = y / x
+					vy = y / x
+				} else if x < 0 && y > 0 {
 					vx = -y / x
-					vy = -x
+					vy = -y / x
+				} else if x < 0 && y < 0 {
+					vx = -y / x
+					vy = y / x
+				} else {
+					fmt.Println("ERROR: Start position bug", x, y)
 				}
 
 				// Velocity vector with fixed length
 				d := math.Sqrt(vx*vx + vy*vy)
-				vxs := 6.0 * vx / d
-				vys := 6.0 * vy / d
+				vxs := 100.0 * vx / d
+				vys := 100.0 * vy / d
 
 				// Translate position to middle of screen
 				x += tx
@@ -81,6 +92,10 @@ func StartValues(nstars int) error {
 			}
 		}
 	}
+
+	//for i := range StarList {
+	//	fmt.Println("Star ", i, StarList[i])
+	//}
 	fmt.Printf("Requested number of stars %d resulted in %d stars\n", nstars, len(StarList))
 	return nil
 }
