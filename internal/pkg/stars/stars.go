@@ -9,7 +9,7 @@ import (
 // Simulation variables
 // Note: dt is set to 1
 const (
-	G = 0.05
+	G  = 0.05
 	V0 = 0.5
 )
 
@@ -66,17 +66,17 @@ func StartValues(nstars int) error {
 					vx = 0.0
 					vy = -x
 				} else if x > 0 && y > 0 {
-					vx = y / x
-					vy = -y / x
+					vx = 1.0
+					vy = -x / y
 				} else if x > 0 && y < 0 {
-					vx = y / x
-					vy = y / x
+					vx = -1.0
+					vy = x / y
 				} else if x < 0 && y > 0 {
-					vx = -y / x
-					vy = -y / x
+					vx = 1.0
+					vy = -x / y
 				} else if x < 0 && y < 0 {
-					vx = -y / x
-					vy = y / x
+					vx = -1.0
+					vy = x / y
 				} else {
 					fmt.Println("ERROR: Start position bug", x, y)
 				}
@@ -97,9 +97,6 @@ func StartValues(nstars int) error {
 		}
 	}
 
-	//for i := range StarList {
-	//	fmt.Println("Star ", i, StarList[i])
-	//}
 	fmt.Printf("Requested number of stars %d resulted in %d stars\n", nstars, len(StarList))
 	return nil
 }
