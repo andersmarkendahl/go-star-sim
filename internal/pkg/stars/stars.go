@@ -65,16 +65,10 @@ func StartValues(nstars int) error {
 				} else if y == 0 {
 					vx = 0.0
 					vy = -x
-				} else if x > 0 && y > 0 {
+				} else if y > 0 {
 					vx = 1.0
 					vy = -x / y
-				} else if x > 0 && y < 0 {
-					vx = -1.0
-					vy = x / y
-				} else if x < 0 && y > 0 {
-					vx = 1.0
-					vy = -x / y
-				} else if x < 0 && y < 0 {
+				} else if y < 0 {
 					vx = -1.0
 					vy = x / y
 				} else {
