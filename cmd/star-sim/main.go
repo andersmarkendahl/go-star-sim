@@ -22,7 +22,7 @@ func init() {
 // Layout is part of ebiten Game interface
 // Defines the screen and is set to always run in full screen
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	return stars.W, stars.H
+	return stars.Data.Width, stars.Data.Height
 }
 
 // Update is part of ebiten Game interface
@@ -51,7 +51,7 @@ func main() {
 	game := &Game{}
 
 	// Specify the window size.
-	stars.W, stars.H = ebiten.ScreenSizeInFullscreen()
+	stars.Data.Width, stars.Data.Height = ebiten.ScreenSizeInFullscreen()
 	ebiten.SetFullscreen(true)
 	ebiten.SetWindowTitle("Star System")
 

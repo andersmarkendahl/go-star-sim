@@ -14,12 +14,11 @@ const (
 )
 
 var (
-	// Width
-	W int
-	// Height
-	H      int
+	// Data is storage for simulation data
+	Data SimData
+	// Float representiation of grid
 	fW, fH float64
-	// The color white
+	// White is ... the color white
 	White = color.RGBA{
 		byte(255),
 		byte(255),
@@ -38,10 +37,10 @@ var StarList []*Star
 
 // StartValues set starting position and velocity
 // Forms an ellipse shape with velocities approx tangential
-func StartValues(nstars int) error {
+func StartValues(nstars int) (int error) {
 
-	fW = float64(W)
-	fH = float64(H)
+	fW = float64(Data.Width)
+	fH = float64(Data.Height)
 
 	r := 5 * math.Round(math.Sqrt(float64(nstars)/math.Pi))
 	tx := fW / 2
@@ -80,7 +79,7 @@ func StartValues(nstars int) error {
 				vxs := V0 * vx / d
 				vys := V0 * vy / d
 
-				// Translate position to middle of screen
+				// Translate position to middle of grid
 				x += tx
 				y += ty
 
@@ -90,7 +89,5 @@ func StartValues(nstars int) error {
 			}
 		}
 	}
-
-	fmt.Printf("Requested number of stars %d resulted in %d stars\n", nstars, len(StarList))
 	return nil
 }
