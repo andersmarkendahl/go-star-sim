@@ -1,10 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
 	"github.com/Aoana/go-star-sim/internal/pkg/stars"
-	"io/ioutil"
 	"log"
 	"time"
 )
@@ -75,13 +73,9 @@ func main() {
 
 	// Debug check to read data
 	var check stars.SimData
-	tmpdata, err := ioutil.ReadFile(*outputFile)
+	err = stars.Read(*outputFile, &check)
 	if err != nil {
-		log.Fatal("Unable to create file")
-	}
-	err = json.Unmarshal(tmpdata, &check)
-	if err != nil {
-		log.Println("error:", err)
+		log.Fatal("Unable to read file")
 	}
 	log.Printf("%+v", check)
 

@@ -25,12 +25,26 @@ type SimData struct {
 	Stars  []Pixel
 }
 
+// Write simdata to file
 func Write(file string) error {
 	f, err := json.MarshalIndent(Data, "", " ")
 	if err != nil {
 		return err
 	}
 	err = ioutil.WriteFile(file, f, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// Read simdata from file
+func Read(file string, simdata *SimData) error {
+	tmpdata, err := ioutil.ReadFile(file)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(tmpdata, simdata)
 	if err != nil {
 		return err
 	}
