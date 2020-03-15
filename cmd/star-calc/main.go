@@ -60,23 +60,12 @@ func main() {
 		}
 	}
 	stars.Data.Time = time.Since(start)
-	log.Println("Simulation complete, storing to file")
+	log.Printf("Simulation complete, took %0.2f minutes, storing to file", stars.Data.Time.Minutes())
 
 	stars.Data.Stars = pixels
 
-	log.Printf("%+v", stars.Data)
-
 	err := stars.Write(*outputFile)
 	if err != nil {
-		log.Fatal("Unable to create file")
+		log.Fatal("Unable to create file", err)
 	}
-
-	// Debug check to read data
-	var check stars.SimData
-	err = stars.Read(*outputFile, &check)
-	if err != nil {
-		log.Fatal("Unable to read file")
-	}
-	log.Printf("%+v", check)
-
 }
