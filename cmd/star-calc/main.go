@@ -1,15 +1,12 @@
 package main
 
 import (
-	_ "bytes"
-	_ "encoding/binary"
 	"encoding/json"
 	"flag"
-	_ "fmt"
 	"github.com/Aoana/go-star-sim/internal/pkg/stars"
 	"io/ioutil"
 	"log"
-	_ "os"
+	"time"
 )
 
 var timestep func()
@@ -25,11 +22,11 @@ func main() {
 	outputFile := flag.String("outputFile", "/tmp/output", "Path to output file")
 	flag.Parse()
 
-	// Store the grid size.
+	// Store simulation data
 	stars.Data.Width = *gridWidth
 	stars.Data.Height = *gridHeight
-	// Store the number of steps
 	stars.Data.Steps = *numbSteps
+	stars.Data.Model = *calcModel
 
 	switch *calcModel {
 	case "Exact":
@@ -53,6 +50,8 @@ func main() {
 	// Run simulation
 	log.Println("Simulation starting")
 	log.Printf("Stars=%d, Model=%s, Grid=%dx%d, Timesteps=%d", len(stars.StarList), *calcModel, stars.Data.Width, stars.Data.Height, stars.Data.Steps)
+
+	start := time.Now()
 	for steps := 0; steps < stars.Data.Steps; steps++ {
 		// Physical calculation (based on method)
 		timestep()
@@ -62,12 +61,12 @@ func main() {
 			pixels[s].Px[steps] = uint16(stars.StarList[s].Y)
 		}
 	}
+	stars.Data.Time = time.Since(start)
 	log.Println("Simulation complete, storing to file")
 
 	stars.Data.Stars = pixels
 
-	log.Println("stars.Data")
-	log.Println(stars.Data)
+	log.Printf("%+v", stars.Data)
 
 	f, _ := json.MarshalIndent(stars.Data, "", " ")
 	_ = ioutil.WriteFile(*outputFile, f, 0644)
@@ -82,7 +81,6 @@ func main() {
 	if err != nil {
 		log.Println("error:", err)
 	}
-	log.Println("check:")
-	log.Println(check)
+	log.Printf("%+v", check)
 
 }
