@@ -58,7 +58,7 @@ func main() {
 		// Store position for post processing
 		for s := range stars.StarList {
 			pixels[s].Px[steps] = uint16(stars.StarList[s].X)
-			pixels[s].Px[steps] = uint16(stars.StarList[s].Y)
+			pixels[s].Py[steps] = uint16(stars.StarList[s].Y)
 		}
 	}
 	stars.Data.Time = time.Since(start)
@@ -68,8 +68,10 @@ func main() {
 
 	log.Printf("%+v", stars.Data)
 
-	f, _ := json.MarshalIndent(stars.Data, "", " ")
-	_ = ioutil.WriteFile(*outputFile, f, 0644)
+	err := stars.Write(*outputFile)
+	if err != nil {
+		log.Fatal("Unable to create file")
+	}
 
 	// Debug check to read data
 	var check stars.SimData

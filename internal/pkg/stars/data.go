@@ -1,6 +1,8 @@
 package stars
 
 import (
+	"encoding/json"
+	"io/ioutil"
 	"time"
 )
 
@@ -21,4 +23,16 @@ type SimData struct {
 	Model  string
 	Time   time.Duration
 	Stars  []Pixel
+}
+
+func Write(file string) error {
+	f, err := json.MarshalIndent(Data, "", " ")
+	if err != nil {
+		return err
+	}
+	err = ioutil.WriteFile(file, f, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
 }
