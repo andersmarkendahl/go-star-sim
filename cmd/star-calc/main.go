@@ -11,7 +11,7 @@ var timestep func()
 
 func main() {
 
-	// Set radius of star cluster
+	// Parse arguments
 	numbStars := flag.Int("numbStars", 12, "Number of stars in cluster")
 	numbSteps := flag.Int("numbSteps", 100, "Number of time steps")
 	calcModel := flag.String("calcModel", "Exact", "\"Exact\" or \"BarnesHut\"")
@@ -20,7 +20,7 @@ func main() {
 	outputFile := flag.String("outputFile", "/tmp/output", "Path to output file")
 	flag.Parse()
 
-	// Store simulation data
+	// Store simulation header data
 	stars.Data.Width = *gridWidth
 	stars.Data.Height = *gridHeight
 	stars.Data.Steps = *numbSteps
