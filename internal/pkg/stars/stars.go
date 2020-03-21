@@ -7,10 +7,12 @@ import (
 )
 
 // Simulation variables
-// Note: dt is set to 1
+// dt is set to 1
 const (
+	// Gravitational constant
 	G  = 0.05
-	V0 = 0.5
+	// Start Velocity
+	v0 = 0.5
 )
 
 var (
@@ -36,7 +38,7 @@ type Star struct {
 var StarList []*Star
 
 // StartValues set starting position and velocity
-// Forms an ellipse shape with velocities approx tangential
+// Forms a circle with start velocities approx tangential counterclockwise
 func StartValues(nstars int) (int error) {
 
 	fW = float64(Data.Width)
@@ -76,8 +78,8 @@ func StartValues(nstars int) (int error) {
 
 				// Velocity vector with fixed length
 				d := math.Sqrt(vx*vx + vy*vy)
-				vxs := V0 * vx / d
-				vys := V0 * vy / d
+				vxs := v0 * vx / d
+				vys := v0 * vy / d
 
 				// Translate position to middle of grid
 				x += tx
