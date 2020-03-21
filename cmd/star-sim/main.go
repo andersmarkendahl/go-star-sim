@@ -40,7 +40,7 @@ func (g *Game) Update(screen *ebiten.Image) error {
 		return errors.New("End of data")
 	}
 
-	ebitenutil.DebugPrint(screen, fmt.Sprintf("Stars: %d\nModel: %s\nTPS: %0.2f\nStep: %d\nMaxSteps: %d\nCalculation: %0.2f minutes", len(stars.Data.Stars), stars.Data.Model, ebiten.CurrentTPS(), step, stars.Data.Steps, calcTime))
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("%s\n\nCurrent Step: %d\nTPS: %0.2f", stars.Data.Summary, step, ebiten.CurrentTPS()))
 	return nil
 }
 
@@ -56,11 +56,8 @@ func main() {
 	if err != nil {
 		log.Fatal("Unable to read file")
 	}
-	calcTime = stars.Data.Time.Minutes()
 
 	log.Println("Viewing simulation")
-	log.Printf("Stars=%d, Model=%s, Grid=%dx%d, Timesteps=%d", len(stars.Data.Stars), stars.Data.Model, stars.Data.Width, stars.Data.Height, stars.Data.Steps)
-
 	ebiten.SetFullscreen(true)
 	ebiten.SetWindowTitle("Star System")
 
