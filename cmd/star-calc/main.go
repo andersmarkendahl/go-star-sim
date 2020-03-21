@@ -2,7 +2,9 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/Aoana/go-star-sim/internal/pkg/stars"
+	"github.com/shirou/gopsutil/cpu"
 	"log"
 	"time"
 )
@@ -47,9 +49,11 @@ func main() {
 
 	// Run simulation
 	log.Println("Simulation starting")
-	log.Printf("Stars=%d, Model=%s, Grid=%dx%d, Timesteps=%d", len(stars.StarList), *calcModel, stars.Data.Width, stars.Data.Height, stars.Data.Steps)
+	log.Printf("Stars=%d, Model=%s, Grid=%dx%d, Timesteps=%d", len(stars.StarList), stars.Data.Model, stars.Data.Width, stars.Data.Height, stars.Data.Steps)
 
+	// Measure the time
 	start := time.Now()
+
 	for steps := 0; steps < stars.Data.Steps; steps++ {
 		// Physical calculation (based on method)
 		timestep()
@@ -59,12 +63,26 @@ func main() {
 			pixels[s].Py[steps] = uint16(stars.StarList[s].Y)
 		}
 	}
-	stars.Data.Time = time.Since(start)
-	log.Printf("Simulation complete, took %0.2f minutes, storing to file", stars.Data.Time.Minutes())
 
+	stars.Data.Time = time.Since(start)
 	stars.Data.Stars = pixels
 
-	err := stars.Write(*outputFile)
+	var cpuModel string
+	cpuStat, err := cpu.Info()
+	if err != nil {
+		log.Println("Unable to get CPU info", err)
+		cpuModel = "CPU not recognized"
+	} else {
+		cpuModel = cpuStat[0].ModelName
+	}
+
+	stars.Data.Summary = fmt.Sprintf("Stars: %d\nGrid: %dx%d\nModel: %s\nSteps: %d\n\nBuild Info:\n%s\nCalculation Time %0.2f minutes",
+		len(stars.Data.Stars), stars.Data.Width, stars.Data.Height, stars.Data.Model, stars.Data.Steps, cpuModel, stars.Data.Time.Minutes())
+
+	log.Printf("\n%s", stars.Data.Summary)
+
+	log.Printf("Simulation complete, took %0.2f minutes, storing to file %s", stars.Data.Time.Minutes(), *outputFile)
+	err = stars.Write(*outputFile)
 	if err != nil {
 		log.Fatal("Unable to create file", err)
 	}

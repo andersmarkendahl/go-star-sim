@@ -10,7 +10,7 @@ import (
 // dt is set to 1
 const (
 	// Gravitational constant
-	G  = 0.05
+	G = 0.05
 	// Start Velocity
 	v0 = 0.5
 )

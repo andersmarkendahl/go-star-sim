@@ -17,12 +17,13 @@ type Pixel struct {
 // Written by star-calc
 // Read by star-sim
 type SimData struct {
-	Width  int
-	Height int
-	Steps  int
-	Model  string
-	Time   time.Duration
-	Stars  []Pixel
+	Width   int
+	Height  int
+	Steps   int
+	Model   string
+	Time    time.Duration
+	Summary string
+	Stars   []Pixel
 }
 
 // Write simdata to file
