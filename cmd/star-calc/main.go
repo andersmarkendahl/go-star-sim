@@ -12,12 +12,12 @@ var timestep func()
 func main() {
 
 	// Parse arguments
-	numbStars := flag.Int("numbStars", 12, "Number of stars in cluster")
-	numbSteps := flag.Int("numbSteps", 100, "Number of time steps")
-	calcModel := flag.String("calcModel", "Exact", "\"Exact\" or \"BarnesHut\"")
-	gridWidth := flag.Int("gridWidth", 1920, "Grid width size")
-	gridHeight := flag.Int("gridHeight", 1080, "Grid height size")
-	outputFile := flag.String("outputFile", "/tmp/output", "Path to output file")
+	numbStars := flag.Int("stars", 12, "Number of stars in cluster")
+	numbSteps := flag.Int("steps", 100, "Number of time steps")
+	calcModel := flag.String("model", "Exact", "\"Exact\" or \"BarnesHut\"")
+	gridWidth := flag.Int("width", 1920, "Grid width size")
+	gridHeight := flag.Int("height", 1080, "Grid height size")
+	outputFile := flag.String("file", "/tmp/output", "Path to output file")
 	flag.Parse()
 
 	// Store simulation header data

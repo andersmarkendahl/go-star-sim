@@ -17,6 +17,6 @@ go build ./cmd/star-sim/
 
 Example:
 ```
-./star-calc -numbStars 1000 -numbSteps 500 -outputFile /tmp/output
-./star-sim -inputFile /tmp/output
+./star-calc -stars 1000 -steps 500 -file /tmp/simdata
+./star-sim -file /tmp/simdata
 ```

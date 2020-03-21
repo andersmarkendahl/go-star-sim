@@ -49,7 +49,7 @@ func main() {
 	game := &Game{}
 
 	// Set radius of star cluster
-	inputFile := flag.String("inputFile", "/tmp/output", "File to read")
+	inputFile := flag.String("file", "/tmp/output", "File to read")
 	flag.Parse()
 
 	err := stars.Read(*inputFile, &stars.Data)
