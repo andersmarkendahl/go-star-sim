@@ -16,7 +16,7 @@ func main() {
 	// Parse arguments
 	numbStars := flag.Int("stars", 12, "Number of stars in cluster")
 	numbSteps := flag.Int("steps", 100, "Number of time steps")
-	calcModel := flag.String("model", "Exact", "\"Exact\", \"BarnesHut\" or BarnesHutGR")
+	calcModel := flag.String("model", "Exact", "\"Exact\", \"ExactGR\", \"BarnesHut\" or \"BarnesHutGR\"")
 	gridWidth := flag.Int("width", 1920, "Grid width size")
 	gridHeight := flag.Int("height", 1080, "Grid height size")
 	outputFile := flag.String("file", "/tmp/output", "Path to output file")
@@ -31,6 +31,8 @@ func main() {
 	switch *calcModel {
 	case "Exact":
 		velocityFunc = stars.VelocityExact
+	case "ExactGR":
+		velocityFunc = stars.VelocityExactGR
 	case "BarnesHut":
 		velocityFunc = stars.VelocityBarnesHut
 	case "BarnesHutGR":
