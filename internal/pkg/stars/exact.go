@@ -7,16 +7,9 @@ import (
 // Runtime variables set for performance
 var exDx, exDy, exD, exD3, exAx, exAy float64
 
-// TimestepExact updates position and velocity of all stars
-// Velocity update is based on ex calculation
-func TimestepExact() {
-
-	// Update positions of all stars based on current velocity
-	for i := range StarList {
-		StarList[i].X = StarList[i].X + StarList[i].vx
-		StarList[i].Y = StarList[i].Y + StarList[i].vy
-	}
-
+// VelocityExact updates position and velocity of all stars
+// Velocity update is based on exact calculation
+func VelocityExact() {
 	// Update velocities of all stars based on "ex" gravity calculation
 	for i := range StarList {
 		exAx = 0.0

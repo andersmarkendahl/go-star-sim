@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-var timestep func()
+var velocityFunc func()
 
 func main() {
 
@@ -30,11 +30,11 @@ func main() {
 
 	switch *calcModel {
 	case "Exact":
-		timestep = stars.TimestepExact
+		velocityFunc = stars.VelocityExact
 	case "BarnesHut":
-		timestep = stars.TimestepBarnesHut
+		velocityFunc = stars.VelocityBarnesHut
 	case "BarnesHutGR":
-		timestep = stars.TimestepBarnesHutGR
+		velocityFunc = stars.VelocityBarnesHutGR
 	default:
 		log.Fatal("Unknown gravity model")
 	}
@@ -57,8 +57,10 @@ func main() {
 	start := time.Now()
 
 	for steps := 0; steps < stars.Data.Steps; steps++ {
-		// Physical calculation (based on method)
-		timestep()
+		// Move all stars
+		stars.Move()
+		// Physical velocity calculation (based on method)
+		velocityFunc()
 		// Store position for post processing
 		for s := range stars.StarList {
 			pixels[s].Px[steps] = uint16(stars.StarList[s].X)

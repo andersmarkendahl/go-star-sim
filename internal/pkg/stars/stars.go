@@ -93,3 +93,14 @@ func StartValues(nstars int) (int error) {
 	}
 	return nil
 }
+
+// Move updates position for all stars
+func Move() {
+
+	// Update positions of all stars based on current velocity
+	for i := range StarList {
+		StarList[i].X = StarList[i].X + StarList[i].vx
+		StarList[i].Y = StarList[i].Y + StarList[i].vy
+	}
+
+}

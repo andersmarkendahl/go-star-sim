@@ -100,16 +100,9 @@ func calcAcc(star *Star, subRoot *Quad) (float64, float64) {
 	return Ax, Ay
 }
 
-// TimestepBarnesHut updates position and velocity of all stars
+// VelocityBarnesHut updates position and velocity of all stars
 // Velocity update is based on Barnes Hut approximation
-func TimestepBarnesHut() {
-
-	// Update positions of all stars based on current velocity
-	for i := range StarList {
-		StarList[i].X = StarList[i].X + StarList[i].vx
-		StarList[i].Y = StarList[i].Y + StarList[i].vy
-	}
-
+func VelocityBarnesHut() {
 	// Update velocities of all stars based approximation gravity calculation
 	// Create a quadtree with all stars inserted
 	root = buildQuadTree(StarList, 0, fW, 0, fH, 0)
@@ -129,16 +122,9 @@ func updateAcc(star *Star, root *Quad, wg *sync.WaitGroup) {
 	star.vy = star.vy + ay
 }
 
-// TimestepBarnesHutGR updates position and velocity of all stars
+// VelocityBarnesHutGR updates position and velocity of all stars
 // Velocity update is based on Barnes Hut approximation with go-routines
-func TimestepBarnesHutGR() {
-
-	// Update positions of all stars based on current velocity
-	for i := range StarList {
-		StarList[i].X = StarList[i].X + StarList[i].vx
-		StarList[i].Y = StarList[i].Y + StarList[i].vy
-	}
-
+func VelocityBarnesHutGR() {
 	// Update velocities of all stars based approximation gravity calculation
 	// Create a quadtree with all stars inserted
 	root = buildQuadTree(StarList, 0, fW, 0, fH, 0)
