@@ -79,8 +79,6 @@ func main() {
 	stars.Data.Summary = fmt.Sprintf("Stars: %d\nGrid: %dx%d\nModel: %s\nSteps: %d\n\nBuild Info:\n%s\nCalculation Time %0.2f minutes",
 		len(stars.Data.Stars), stars.Data.Width, stars.Data.Height, stars.Data.Model, stars.Data.Steps, cpuModel, stars.Data.Time.Minutes())
 
-	log.Printf("\n%s", stars.Data.Summary)
-
 	log.Printf("Simulation complete, took %0.2f minutes, storing to file %s", stars.Data.Time.Minutes(), *outputFile)
 	err = stars.Write(*outputFile)
 	if err != nil {
