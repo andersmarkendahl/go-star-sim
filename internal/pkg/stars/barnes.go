@@ -2,6 +2,7 @@ package stars
 
 import (
 	"math"
+	"sync"
 )
 
 // Simulation variables
@@ -118,4 +119,34 @@ func TimestepBarnesHut() {
 		StarList[i].vx = StarList[i].vx + ax
 		StarList[i].vy = StarList[i].vy + ay
 	}
+}
+
+// Helper function to be able to use go routines
+func updateAcc(star *Star, root *Quad, wg *sync.WaitGroup) {
+	defer wg.Done()
+	ax, ay := calcAcc(star, root)
+	star.vx = star.vx + ax
+	star.vy = star.vy + ay
+}
+
+// TimestepBarnesHutGR updates position and velocity of all stars
+// Velocity update is based on Barnes Hut approximation with go-routines
+func TimestepBarnesHutGR() {
+
+	// Update positions of all stars based on current velocity
+	for i := range StarList {
+		StarList[i].X = StarList[i].X + StarList[i].vx
+		StarList[i].Y = StarList[i].Y + StarList[i].vy
+	}
+
+	// Update velocities of all stars based approximation gravity calculation
+	// Create a quadtree with all stars inserted
+	root = buildQuadTree(StarList, 0, fW, 0, fH, 0)
+	var wg sync.WaitGroup
+	for i := range StarList {
+		// Update Velocities
+		wg.Add(1)
+		go updateAcc(StarList[i], root, &wg)
+	}
+	wg.Wait()
 }
