@@ -12,7 +12,7 @@ const (
 	// Gravitational constant
 	G = 0.05
 	// Start Velocity
-	v0 = 0.5
+	v0 = 1.0
 )
 
 var (
@@ -44,11 +44,11 @@ func StartValues(nstars int) (int error) {
 	fW = float64(Data.Width)
 	fH = float64(Data.Height)
 
-	r := 5 * math.Round(math.Sqrt(float64(nstars)/math.Pi))
+	r := 3 * math.Round(math.Sqrt(float64(nstars)/math.Pi))
 	tx := fW / 2
 	ty := fH / 2
-	for i := -r; i <= r; i += 5 {
-		for j := -r; j <= r; j += 5 {
+	for i := -r; i <= r; i += 3 {
+		for j := -r; j <= r; j += 3 {
 			if i*i+j*j <= r*r {
 
 				// Logical starting position
