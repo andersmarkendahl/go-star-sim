@@ -77,7 +77,7 @@ func calcAcc(star *Star, subRoot *Quad) (float64, float64) {
 	Dy := subRoot.cmy - star.Y
 	D := math.Sqrt(Dx*Dx + Dy*Dy)
 	// Star is same or too close
-	if D < 1.0 {
+	if D < 0.5 {
 		return 0, 0
 	}
 	theta := (fW / math.Exp2(float64(subRoot.depth))) / D

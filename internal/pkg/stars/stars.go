@@ -11,8 +11,6 @@ import (
 const (
 	// Gravitational constant
 	G = 0.05
-	// Start Velocity
-	v0 = 1.0
 )
 
 var (
@@ -78,8 +76,8 @@ func StartValues(nstars int) (int error) {
 
 				// Velocity vector with fixed length
 				d := math.Sqrt(vx*vx + vy*vy)
-				vxs := v0 * vx / d
-				vys := v0 * vy / d
+				vxs := Data.Velocity * vx / d
+				vys := Data.Velocity * vy / d
 
 				// Translate position to middle of grid
 				x += tx

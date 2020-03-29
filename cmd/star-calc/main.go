@@ -14,21 +14,23 @@ var velocityFunc func()
 func main() {
 
 	// Parse arguments
-	numbStars := flag.Int("stars", 12, "Number of stars in cluster")
-	numbSteps := flag.Int("steps", 100, "Number of time steps")
-	calcModel := flag.String("model", "Exact", "\"Exact\", \"ExactGR\", \"BarnesHut\" or \"BarnesHutGR\"")
-	gridWidth := flag.Int("width", 1920, "Grid width size")
-	gridHeight := flag.Int("height", 1080, "Grid height size")
-	outputFile := flag.String("file", "/tmp/output", "Path to output file")
+	nstars := flag.Int("stars", 12, "Number of stars in cluster")
+	nsteps := flag.Int("steps", 100, "Number of time steps")
+	velocity := flag.Float64("velocity", 0.5, "Initial velocity of stars [0 - 5.0]")
+	model := flag.String("model", "Exact", "\"Exact\", \"ExactGR\", \"BarnesHut\" or \"BarnesHutGR\"")
+	width := flag.Int("width", 1920, "Grid width size")
+	height := flag.Int("height", 1080, "Grid height size")
+	file := flag.String("file", "/tmp/output", "Path to output file")
 	flag.Parse()
 
 	// Store simulation header data
-	stars.Data.Width = *gridWidth
-	stars.Data.Height = *gridHeight
-	stars.Data.Steps = *numbSteps
-	stars.Data.Model = *calcModel
+	stars.Data.Width = *width
+	stars.Data.Height = *height
+	stars.Data.Steps = *nsteps
+	stars.Data.Model = *model
+	stars.Data.Velocity = *velocity
 
-	switch *calcModel {
+	switch *model {
 	case "Exact":
 		velocityFunc = stars.VelocityExact
 	case "ExactGR":
@@ -42,7 +44,7 @@ func main() {
 	}
 
 	// Spawn all stars
-	stars.StartValues(*numbStars)
+	stars.StartValues(*nstars)
 
 	// Create coordinate slice for storing positions
 	pixels := make([]stars.Pixel, len(stars.StarList))
@@ -82,11 +84,11 @@ func main() {
 		cpuModel = cpuStat[0].ModelName
 	}
 
-	stars.Data.Summary = fmt.Sprintf("Stars: %d\nGrid: %dx%d\nModel: %s\nSteps: %d\n\nBuild Info:\n%s\nCalculation Time %0.2f minutes",
-		len(stars.Data.Stars), stars.Data.Width, stars.Data.Height, stars.Data.Model, stars.Data.Steps, cpuModel, stars.Data.Time.Minutes())
+	stars.Data.Summary = fmt.Sprintf("Stars: %d\nGrid: %dx%d\nModel: %s\nSteps: %d\nVelocity: %0.2f\n\nBuild Info:\n%s\nCalculation Time %0.2f minutes",
+		len(stars.Data.Stars), stars.Data.Width, stars.Data.Height, stars.Data.Model, stars.Data.Steps, stars.Data.Velocity, cpuModel, stars.Data.Time.Minutes())
 
-	log.Printf("Simulation complete, took %0.2f minutes, storing to file %s", stars.Data.Time.Minutes(), *outputFile)
-	err = stars.Write(*outputFile)
+	log.Printf("Simulation complete, took %0.2f minutes, storing to file %s", stars.Data.Time.Minutes(), *file)
+	err = stars.Write(*file)
 	if err != nil {
 		log.Fatal("Unable to create file", err)
 	}

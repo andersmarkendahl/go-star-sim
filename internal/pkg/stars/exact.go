@@ -24,7 +24,7 @@ func VelocityExact() {
 			exDy = StarList[j].Y - StarList[i].Y
 			exD = math.Sqrt(exDx*exDx + exDy*exDy)
 			// Skip when stars are closer than 1 pixel
-			if exD < 1.0 {
+			if exD < 0.5 {
 				continue
 			}
 			exD3 = exD * exD * exD
@@ -48,8 +48,8 @@ func exactAcc(star *Star, i int, wg *sync.WaitGroup) {
 		dx := StarList[j].X - star.X
 		dy := StarList[j].Y - star.Y
 		d := math.Sqrt(dx*dx + dy*dy)
-		// Skip when stars are closer than 1 pixel
-		if d < 1.0 {
+		// Skip when stars are too close
+		if d < 0.5 {
 			continue
 		}
 		d3 := d * d * d
