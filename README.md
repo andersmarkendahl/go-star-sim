@@ -1,6 +1,8 @@
 # go-star-sim
 Star system simulation in Go
 
+<img src="assets/images/screenshot.png" alt="Star Simulator Screenshot" width="80%" />
+
 ## Build
 
 ```
@@ -19,4 +21,6 @@ Example:
 ```
 ./star-calc -stars 1000 -steps 500 -file /tmp/simdata
 ./star-sim -file /tmp/simdata
+./star-calc -model BarnesHutGR -stars 1000 -steps 500 -file /tmp/simdata2
+./star-sim -file /tmp/simdata2
 ```
