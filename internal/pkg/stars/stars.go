@@ -1,9 +1,9 @@
 package stars
 
 import (
-	"math"
 	"fmt"
 	"image/color"
+	"math"
 )
 
 // Simulation variables
