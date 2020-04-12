@@ -22,7 +22,7 @@ jobs:
       - checkout
 
       # specify any bash command here prefixed with `run: `
-      - run: fmt=$(gofmt -l .);test -z $fmt || exit 1
+      - run: test -z $(gofmt -l .)
       - run: go build ./cmd/star-calc
       - run: ./star-calc -model Exact -stars 1000 -steps 100 -file ./output
       - run: ./star-calc -model ExactGR -stars 1000 -steps 100 -file ./output
