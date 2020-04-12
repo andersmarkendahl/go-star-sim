@@ -23,4 +23,7 @@ jobs:
 
       # specify any bash command here prefixed with `run: `
       - run: go build ./cmd/star-calc
-      - run: go build ./cmd/star-sim
+      - run: ./star-calc -model Exact -stars 1000 -steps 100 -file ./output
+      - run: ./star-calc -model ExactGR -stars 1000 -steps 100 -file ./output
+      - run: ./star-calc -model BarnesHut -stars 1000 -steps 100 -file ./output
+      - run: ./star-calc -model BarnesHutGR -stars 1000 -steps 100 -file ./output
