@@ -25,6 +25,6 @@ Example:
 ./star-sim -file /tmp/simdata2
 ```
 
-## Calculation time based on method
+## Measurement
 
 <img src="assets/images/calctime.png" alt="Star Simulator Screenshot" width="100%" />
