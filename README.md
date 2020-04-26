@@ -1,6 +1,8 @@
 # go-star-sim
 Star system simulation in Go
 
+Comparing different calculation methods with and without goroutines.
+
 <img src="assets/images/screenshot.png" alt="Star Simulator Screenshot" width="100%" />
 
 ## Build
