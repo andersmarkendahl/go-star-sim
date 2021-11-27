@@ -26,7 +26,7 @@ go build ./cmd/star-sim/
 
 ## Run
 
-Example:
+Example (direct path):
 ```
 ./star-calc -stars 1000 -steps 500 -file /tmp/simdata
 ./star-sim -file /tmp/simdata

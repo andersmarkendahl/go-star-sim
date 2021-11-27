@@ -20,7 +20,7 @@ jobs:
     working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
       - checkout
-
+      - run: sleep 2
       # specify any bash command here prefixed with `run: `
       - run: test -z $(gofmt -l .)
       - run: go build ./cmd/star-calc
