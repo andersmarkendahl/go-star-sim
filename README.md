@@ -8,7 +8,6 @@ Comparing different calculation methods with and without goroutines.
 ## Dependencies
 
 Ubuntu:
-
 ```
 sudo apt install golang-go xserver-xorg-dev xorg-dev
 ```
