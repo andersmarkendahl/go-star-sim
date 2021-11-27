@@ -5,6 +5,14 @@ Comparing different calculation methods with and without goroutines.
 
 <img src="assets/images/screenshot.png" alt="Star Simulator Screenshot" width="100%" />
 
+## Dependencies
+
+Ubuntu:
+
+```
+sudo apt install golang-go xserver-xorg-dev xorg-dev
+```
+
 ## Build
 
 ```
